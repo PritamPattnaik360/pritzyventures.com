@@ -60,7 +60,7 @@ export default function Footer() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-12 pt-8 border-t border-white/6 flex flex-col sm:flex-row items-center justify-between gap-4 text-white/20 text-xs"
         >
-          <p>© {new Date().getFullYear()} Pritzy Ventures LLC. All rights reserved.</p>
+          <p>Copyright © {new Date().getFullYear()} Pritzy Ventures - All Rights Reserved.</p>
           <div className="flex items-center gap-1">
             <span className="w-1 h-1 rounded-full bg-white/20" />
             <span>Technology Holding Company</span>
