@@ -1,7 +1,12 @@
 "use client";
 
+import emailjs from "@emailjs/browser";
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+
+const EMAILJS_SERVICE_ID = "service_PritzyVentures";
+const EMAILJS_TEMPLATE_ID = "template_hpts7za";
+const EMAILJS_PUBLIC_KEY = "-HV9VyfeGj5Kk79ew";
 
 type FormState = {
   name: string;
@@ -24,6 +29,7 @@ export default function ContactSection() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -32,9 +38,26 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setSubmitting(false);
-    setSubmitted(true);
+    setError(null);
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: form.name,
+          email: form.email,
+          company: form.company || "Not provided",
+          subject: form.subject,
+          message: form.message,
+        },
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong sending your message. Please try again, or email us directly.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const inputClass =
@@ -180,6 +203,12 @@ export default function ContactSection() {
                   </div>
                 ))}
               </div>
+
+              {error && (
+                <div className="mb-6 p-4 rounded-xl border border-red-500/30 bg-red-500/10">
+                  <p className="text-red-400 text-sm">{error}</p>
+                </div>
+              )}
 
               <div className="flex justify-end">
                 <button

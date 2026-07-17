@@ -35,7 +35,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="text-white/30 text-sm font-medium italic text-center md:text-left">
-              &quot;Building technology that shapes tomorrow.&quot;
+              &quot;Creative intellect changing tomorrow.&quot;
             </p>
           </div>
 
